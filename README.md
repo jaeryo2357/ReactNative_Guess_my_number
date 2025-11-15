@@ -84,3 +84,43 @@ Image 컴포넌트와 유사하지만, 화면 전경에 이미지를 표시하�
 ```
 
 source 속성으로 표시할 이미지를 지정한다. 특징으로는 view style과 imageStyle를 분리해서 지정할 수 있다.
+
+# Alert 띄우기
+
+```js
+Alert.alert(
+    'Invalid number', //title
+    'number must be 0 between 99', //message
+    [{text: "okay", style:"destructive", onPress: resetHandler}] //buttons
+); 
+```
+
+# SafeAreView (iOS 노치)
+Android는 노치가 없어 적용이 안됨.
+```js
+<SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
+```
+
+react-native 0.81.5 기준 Deprecated
+
+대신 아래 패키지를 추가하는 것을 권장
+https://github.com/AppAndFlow/react-native-safe-area-context
+
+# Color, 상수 전역으로 관리하기
+
+```js
+const Colors = {
+    primary500: '#720637',
+    primary600: '#91305cff',
+    primary700: '#460522ff',
+    accent500: '#ddb52f'
+}
+
+export default Colors;
+```
+
+```js
+import Colors from './constants/colors';
+
+Colors.primary500
+```
