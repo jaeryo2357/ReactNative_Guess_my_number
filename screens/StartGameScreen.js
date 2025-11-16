@@ -64,12 +64,12 @@ const styles = StyleSheet.create({
     },
     numberInput: {
         width: 100,
+        fontFamily: 'open-sans-bold',
         fontSize: 32,
         borderBottomColor: Colors.accent500,
         color: Colors.accent500,
         borderBottomWidth: 2,
         marginVertical: 8,
-        fontWeight: 'bold',
         textAlign: 'center',
     },
     buttonsContainer: {

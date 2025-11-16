@@ -10,6 +10,7 @@ export default DescriptionText;
 const styles = StyleSheet.create({
     text: {
         fontSize: 24,
+        fontFamily: 'open-sans',
         color: Colors.accent500
     }
 })

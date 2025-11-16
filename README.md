@@ -108,6 +108,8 @@ https://github.com/AppAndFlow/react-native-safe-area-context
 
 # Color, 상수 전역으로 관리하기
 
+resource처럼 정적 리소스 관리하는 객체는 없군.
+
 ```js
 const Colors = {
     primary500: '#720637',
@@ -123,4 +125,109 @@ export default Colors;
 import Colors from './constants/colors';
 
 Colors.primary500
+```
+
+# UseEffect 사용하기
+```js
+    useEffect(() => {
+        if (currentGuess === userNumber) {
+            onGameOver()
+        }
+    }, [currentGuess, userNumber, onGameOver])
+```
+리액트에서 상태가 변경될 떄마다 호출되는 액션 수행
+
+# 계단식 스타일 적용하기
+```js
+function DescriptionText({children, style}) {
+    return <Text style={[styles.text, style]}>{children}</Text>
+}
+```
+CSS처럼 외부에서 style를 추가 및 오버라이드 할 수 있도록 구현하는 방법
+
+
+# Expo Vector Icon 사용하기
+```js
+import Ionicons from '@expo/vector-icons/Ionicons';
+
+<Ionicons name="remove" size={24} color="white"/>
+```
+
+# Expo Font 사용하기
+
+루트 컴포넌트인 App.js에서 실행해서 폰트 가져오기.
+
+```js
+import { useFonts } from 'expo-font'
+
+  const [fontLoaded] = useFonts({
+    'open-sans': require("./assets/fonts/OpenSans-Regular.ttf"),
+    'open-sans-bold': require("./assets/fonts/OpenSans-Bold.ttf"),
+  })
+
+    const [fontLoaded, error] = useFonts({
+    'open-sans': require("./assets/fonts/OpenSans-Regular.ttf"),
+    'open-sans-bold': require("./assets/fonts/OpenSans-Bold.ttf"),
+  })
+```
+두번째 필드에서 error를 받아볼 수 있다.
+
+# Expo Loading Screen (Deprecated)
+```js
+import AppLoding from 'expo-app-loading'
+
+  if (!fontLoaded) {
+    return <AppLoding />
+  }
+```
+
+>expo-app-loading is deprecated in favor of expo-splash-screen: use SplashScreen.preventAutoHideAsync() and SplashScreen.hideAsync() instead. https://docs.expo.dev/versions/latest/sdk/splash-screen/
+
+```js
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect, useState } from 'react';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
+export default function RootLayout() {
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    async function doAsyncStuff() {
+      try {
+        // do something async here
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setIsReady(true);
+      }
+    }
+
+    doAsyncStuff();
+  }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      SplashScreen.hide();
+    }
+  }, [isReady]);
+
+  if (!isReady) {
+    return null;
+  }
+
+  return <Stack />;
+}
+```
+
+
+# 의문점들...
+## GmaeOver State 초기값을 true로 둔 이유?
+
+```js
+  const [gameIsOver, setGameIsOver] = useState(true)
+  ...
+  if (gameIsOver && userNumber)
 ```
