@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Alert } from 'react-native';
+import { FlatList, Text, View, StyleSheet, Alert } from 'react-native';
 import Title from '../components/Title';
 import NumberContainer from '../components/NumberContainer';
 import PrimaryButton from '../components/PrimaryButton';
@@ -21,14 +21,20 @@ let minBoundary = 1
 let maxBoundary = 100
 
 function GameScreen({ userNumber, onGameOver }) {
-    const initialGuess = generateRandomBetween(1, 100, userNumber)
-    const [currentGuess, setCurrentGuess] = useState(initialGuess)
+    const initialGuess = generateRandomBetween(1, 100, userNumber);
+    const [currentGuess, setCurrentGuess] = useState(initialGuess);
+    const [guessRounds, setGuessRounds] = useState([initialGuess]);
 
     useEffect(() => {
         if (currentGuess === userNumber) {
-            onGameOver()
+            onGameOver(guessRounds.length)
         }
     }, [currentGuess, userNumber, onGameOver])
+
+    useEffect(() => {
+        minBoundary = 1
+        maxBoundary = 100
+    }, [])
 
     function nextGuessHandler(direction) { // direction => lower, greater
         if (
@@ -46,8 +52,10 @@ function GameScreen({ userNumber, onGameOver }) {
         } else {
             minBoundary = currentGuess + 1
         }
-
-        setCurrentGuess(generateRandomBetween(minBoundary, maxBoundary, currentGuess))
+        
+        const newGuessNumber = generateRandomBetween(minBoundary, maxBoundary, currentGuess)
+        setCurrentGuess(newGuessNumber)
+        setGuessRounds(previusGuessRounds => [newGuessNumber, ...previusGuessRounds])
     }
 
 
@@ -70,7 +78,9 @@ function GameScreen({ userNumber, onGameOver }) {
                     </View>
                 </View>
             </Card>
-            {/* <View>LOG ROUNDS</View> */}
+            <View style={styles.listContainer}>
+                <FlatList data={guessRounds} renderItem={({item}) => <Text>{item}</Text>} keyExtractor={(_, index) => index.toString()}></FlatList>
+            </View>
         </View>
     );
 }
@@ -80,7 +90,8 @@ export default GameScreen;
 const styles = StyleSheet.create({
     rootScreen: {
         flex: 1,
-        padding: 24
+        padding: 24,
+        alignItems: 'center'
     },
     descriptionText: {
         marginBottom: 24
@@ -90,5 +101,9 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flex: 1
+    },
+    listContainer: {
+        flex: 1,
+        padding: 16
     }
 })
