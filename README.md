@@ -302,3 +302,12 @@ behavior
 1. Platform.OS === 'ios' ? 10 : 24
 2. Platform.select({ios: 10, android: 24})
 3. file 확장자로 설정 ex) colors.ios.js
+
+## StatusBar
+
+StatusBar 컨트롤할 수 있는 컴포넌트
+
+```js
+<StatusBar style='light'/>
+```
+아이콘 색상 뿐만 아니라, 높이를 가져오거나(Android), 백그라운드 컬러 변경 등도 가능함
