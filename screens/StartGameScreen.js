@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextInput, View, StyleSheet, Alert, useWindowDimensions } from "react-native";
+import { TextInput, View, StyleSheet, Alert, useWindowDimensions, KeyboardAvoidingView } from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import Colors from '../constants/colors';
 import Card from '../components/Card';
@@ -33,33 +33,38 @@ function StartGameScreen({ onPickedNumber }) {
     const marginTop = height < 380 ? 30 : 100
 
     return (
-        <View style={styles.rootScreen}>
-            <Title>Guess a Number</Title>
-            <Card>
-                <DescriptionText>Enter a Number</DescriptionText>
-                <TextInput style={[styles.numberInput, { marginTop: marginTop }]}
-                    maxLength={2} keyboardType="number-pad"
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    onChangeText={numberInputHandler}
-                    value={enteredNumber}
-                />
-                <View style={styles.buttonsContainer}>
-                    <View style={styles.buttonContainer}>
-                        <PrimaryButton onPress={resetHandler}>Reset</PrimaryButton>
+        <KeyboardAvoidingView style={styles.screen} behavior="position">
+            <View style={[styles.rootScreen, { marginTop: marginTop }]}>
+                <Title>Guess a Number</Title>
+                <Card>
+                    <DescriptionText>Enter a Number</DescriptionText>
+                    <TextInput style={styles.numberInput}
+                        maxLength={2} keyboardType="number-pad"
+                        autoCorrect={false}
+                        autoCapitalize="none"
+                        onChangeText={numberInputHandler}
+                        value={enteredNumber}
+                    />
+                    <View style={styles.buttonsContainer}>
+                        <View style={styles.buttonContainer}>
+                            <PrimaryButton onPress={resetHandler}>Reset</PrimaryButton>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <PrimaryButton onPress={confirmHandler}>Confirm</PrimaryButton>
+                        </View>
                     </View>
-                    <View style={styles.buttonContainer}>
-                        <PrimaryButton onPress={confirmHandler}>Confirm</PrimaryButton>
-                    </View>
-                </View>
-            </Card>
-        </View>
+                </Card>
+            </View>
+        </KeyboardAvoidingView>
     );
 }
 
 export default StartGameScreen;
 
 const styles = StyleSheet.create({
+    screen: {
+        flex: 1
+    },
     rootScreen: {
         flex: 1,
         marginTop: 100,

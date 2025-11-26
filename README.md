@@ -280,3 +280,15 @@ import { useWindowDimensions } from "react-native";
 
     <View style={[styles.rootScreen, {marginTop: marginTop}]}>
 ```
+
+값이 변경되면 컴포넌트가 재구성되면서 변경된 가로, 세로가 재계산된다.
+
+## KeyboardAvoidingView
+
+키보드가 올라올때 뷰를 가리지 않도록 도와주는 컴포넌트
+
+behavior
+- position: 뷰의 위치가 키보드 위에 보일 수 있도록 이동 => 영상에서 쓴 방법이지만 잘 쓰지 않는 방법인듯
+
+- height: 키보드 높이만큼 제외된 높이로 수정됨 => Android 권장
+- padding: 키보드 높이의 view가 추가됨(padding) => iOS 권장
