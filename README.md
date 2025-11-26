@@ -222,12 +222,61 @@ export default function RootLayout() {
 }
 ```
 
-
-# 의문점들...
-## GmaeOver State 초기값을 true로 둔 이유?
+# Text 중첩
 
 ```js
-  const [gameIsOver, setGameIsOver] = useState(true)
-  ...
-  if (gameIsOver && userNumber)
+    <Text style={styles.summaryText}>
+            Your phone needed 
+            <Text style={styles.highlight}>X</Text> 
+            rounds to guess the number
+            <Text style={styles.highlight}>Y</Text>
+    </Text>
+```
+Text 컴포넌트는 Text 컴포넌트를 중첩으로 가질 수 있다. 각 컴포넌트 별로 스타일을 다르게 시정할 수 있다.
+
+
+---
+
+# Section 3
+
+## 동적 너비 설정하기
+
+부모 뷰의 너비를 동적으로 계산하여 너비를 지정
+```js
+ title: {
+        ...
+        maxWidth: '80%',
+        width: 300,
+```
+
+## Dimensions API 
+
+```
+import { Dimensions } from 'react-native';
+
+const deviceWidth = Dimensions.get('window').width
+```
+
+Dimensions.get('window') -> Android에서는 상태 표시줄을 제외한 UI 레이아웃 크기
+Dimensions.get('screen') -> Android에서는 상태 표시줄을 포함한 전체 레이아웃 크기
+iOS에서는 모두 동일!
+
+```js
+        width: 300,
+        height: 300,
+```
+디바이스 너비를 고려해서 가로, 세로 사이즈를 동일하게 하려면 Dimensions를 사용하면 좋다.
+
+## useWindowDimensions
+
+Dimensions API는 컴포넌트 밖에서 사용하기 때문에 최초 한번만 실행됨.
+기기 configuration change 처럼 동적으로 변경되는 값을 가져오려면 useWindowDimensions을 사용한다.
+
+```js
+import { useWindowDimensions } from "react-native";
+
+    const { width, height } = useWindowDimensions()
+    const marginTop = height < 380 ? 30 : 100
+
+    <View style={[styles.rootScreen, {marginTop: marginTop}]}>
 ```
