@@ -292,3 +292,13 @@ behavior
 
 - height: 키보드 높이만큼 제외된 높이로 수정됨 => Android 권장
 - padding: 키보드 높이의 view가 추가됨(padding) => iOS 권장
+
+## Platform Select API
+
+플랫폼별 다르게 설정하고 싶을 때 사용하는 API
+
+사용하는 방법 3가지
+
+1. Platform.OS === 'ios' ? 10 : 24
+2. Platform.select({ios: 10, android: 24})
+3. file 확장자로 설정 ex) colors.ios.js
